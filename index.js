@@ -3,6 +3,7 @@ var Router = require('router');
 var static = require('serve-static');
 var directoryExists = require('directory-exists').sync;
 var getPayload = require(__dirname + '/lib/get_payload');
+var getRecursivePayload = require(__dirname + '/lib/get_recursive_payload');
 var getS3Payload = require(__dirname + '/lib/get_s3_payload');
 var resolveModulePath = require(__dirname + '/lib/resolve_module_path');
 var mustache = require('mustache');
@@ -50,6 +51,8 @@ module.exports = function(photoPath, options) {
   app.use('/js', static(resolveModulePath('lg-zoom') + '/dist'));
   app.use('/js', static(resolveModulePath('lg-thumbnail') + '/dist'));
   app.use('/js', static(resolveModulePath('lg-fullscreen') + '/dist'));
+  app.use('/js', static(resolveModulePath('lg-hash') + '/dist'));
+  app.use('/js', static(resolveModulePath('lg-autoplay') + '/dist'));
 
   app.get('/', function(req, res) {
 
@@ -67,6 +70,7 @@ module.exports = function(photoPath, options) {
       getPayload(paths, options, function(payload) {
         res.send(mustache.render(template, {
           title: options.title || 'Photo Gallery',
+          album: options.album || null,
           data: JSON.stringify(payload)
         }));
       });
