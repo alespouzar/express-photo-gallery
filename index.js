@@ -33,16 +33,16 @@ module.exports = function(photoPath, options) {
 
     if (!directoryExists(photoPath)) throw new Error('Must provide valid path for photos');
 
-    if (directoryExists(photoPath + '/previews')) {
-      paths.previews = photoPath + '/previews';
+    if (directoryExists(photoPath + '/preview')) {
+      paths.previews = photoPath + '/preview';
     }
 
-    if (directoryExists(photoPath + '/thumbs')) {
-      paths.thumbs = photoPath + '/thumbs';
+    if (directoryExists(photoPath + '/thumb')) {
+      paths.thumbs = photoPath + '/thumb';
     }
 
     app.use('/photos', static(paths.previews || photoPath));
-    if (paths.thumbs) app.use('/thumbs', static(paths.thumbs));
+    if (paths.thumbs) app.use('/thumb', static(paths.thumbs));
     if (paths.previews) app.use('/downloads', static(photoPath));
 
   }
